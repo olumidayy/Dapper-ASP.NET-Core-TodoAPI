@@ -20,15 +20,18 @@ namespace TodoAPI.Data.Repositories
 
         public async Task Create(CreateTodoDTO createTodoDTO, Guid userId)
         {
-            string sqlQuery = "INSERT into Todos (UserId, Title, Description, Id) values (@UserId, @Title, @Description, @Id)";
+            string sqlQuery = "INSERT into Todos (UserId, Title, Description, Id, Status) values (@UserId, @Title, @Description, @Id, @Status)";
             var parameters = new DynamicParameters();
             parameters.Add("Title", createTodoDTO.Title, DbType.String);
             parameters.Add("UserId", createTodoDTO.UserId, DbType.Guid);
             parameters.Add("Description", createTodoDTO.Description, DbType.String);
+            parameters.Add("Status", TodoStatus.Todo, DbType.String);
             parameters.Add("Id", Guid.NewGuid(), DbType.Guid);
+            Console.WriteLine(TodoStatus.Todo);
             using (var connection = _context.CreateConnection())
             {
-                await connection.ExecuteAsync(sqlQuery, parameters);
+                var r = await connection.ExecuteAsync(sqlQuery, parameters);
+                Console.Write(r);
             }
         }
 
@@ -47,17 +50,17 @@ namespace TodoAPI.Data.Repositories
             string sqlQuery = "SELECT * FROM Todos WHERE Id = @Id";
             using (var connection = _context.CreateConnection())
             {
-                var todo = await connection.QuerySingleAsync<TodoItem>(sqlQuery);
+                var todo = await connection.QuerySingleAsync<TodoItem>(sqlQuery, new { Id = id });
                 return todo;
             }
         }
 
         public async Task<IEnumerable<TodoItem>> GetByUser(Guid id)
         {
-            string sqlQuery = "SELECT * FROM Todos WHERE UserId = @Id";
+            string sqlQuery = "SELECT * FROM Todos WHERE UserId = @UserId";
             using (var connection = _context.CreateConnection())
             {
-                var todos = await connection.QueryAsync<TodoItem>(sqlQuery, new { UserId = id });
+                IEnumerable<TodoItem> todos = await connection.QueryAsync<TodoItem>(sqlQuery, new { UserId = id });
                 return todos;
             }
         }

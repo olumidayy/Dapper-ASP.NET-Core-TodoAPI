@@ -5,10 +5,10 @@ using TodoAPI.Domain.Entities;
 
 namespace TodoAPI.DTOs
 {
-    public interface CreateTodoDTO
+    public class CreateTodoDTO
     {
         [Required]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
         public String Title { get; set; }
@@ -17,7 +17,7 @@ namespace TodoAPI.DTOs
         public String Description { get; set; }
     }
 
-    public interface UpdateTodoDTO
+    public class UpdateTodoDTO
     {
         [Required]
         public String Title { get; set; }

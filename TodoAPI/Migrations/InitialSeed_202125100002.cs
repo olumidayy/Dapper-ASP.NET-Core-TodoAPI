@@ -37,13 +37,13 @@ namespace TodoAPI.Migrations
                 for (int j = 0; j < 5; j++)
                 {
                     Insert.IntoTable("Todos")
-                    .Row(new TodoItem{
-                        Title = titles[rnd.Next(titles.Count)],
-                        Description = "Some pretty long string",
-                        Status = (TodoStatus)rnd.Next(3),
-                        UserId = id,
-                        Id = Guid.NewGuid()
-                    });
+                        .Row(new TodoItem{
+                            Title = titles[rnd.Next(titles.Count)],
+                            Description = "Some pretty long string",
+                            Status = (TodoStatus)rnd.Next(3),
+                            UserId = id,
+                            Id = Guid.NewGuid()
+                        });
                 }
             }
         }

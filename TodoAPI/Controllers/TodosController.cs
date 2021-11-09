@@ -52,7 +52,8 @@ namespace TodoAPI.Controllers
                 if(todo == null) return NotFound();
                 return Ok(new {
                     success = true,
-                    message = "One todo item returned."
+                    message = "One todo item returned.",
+                    data = todo
                 });
             }
             catch (Exception ex)
@@ -63,7 +64,7 @@ namespace TodoAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{userId}")]
+        [Route("users/{userId}")]
         public async Task<IActionResult> GetByUserId(Guid userId)
         {
             try
@@ -101,6 +102,7 @@ namespace TodoAPI.Controllers
         }
 
         [HttpPatch]
+        [Route("{todoId}")]
         public async Task<IActionResult> Update(UpdateTodoDTO updateTodoDTO, Guid todoId)
         {
             try

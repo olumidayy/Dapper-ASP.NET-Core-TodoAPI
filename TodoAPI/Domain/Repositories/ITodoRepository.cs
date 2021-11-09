@@ -13,6 +13,7 @@ namespace TodoAPI.Domain.Repositories
         public Task Create(CreateTodoDTO createTodoDTO, Guid userId);
 
         public Task<IEnumerable<TodoItem>> GetAll();
+        
         public Task<TodoItem> GetById(Guid id);
 
         public Task<IEnumerable<TodoItem>> GetByUser(Guid id);
