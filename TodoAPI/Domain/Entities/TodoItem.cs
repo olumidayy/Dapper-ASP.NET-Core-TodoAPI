@@ -19,5 +19,4 @@ namespace TodoAPI.Domain.Entities
 
         public TodoStatus Status { get; set; } = TodoStatus.Todo;
     }
-
 }

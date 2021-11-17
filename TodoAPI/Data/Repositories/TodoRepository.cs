@@ -18,21 +18,22 @@ namespace TodoAPI.Data.Repositories
             _context = context;
         }
 
-        public async Task Create(CreateTodoDTO createTodoDTO, Guid userId)
+        public async Task<Guid> Create(CreateTodoDTO createTodoDTO, Guid userId)
         {
             string sqlQuery = "INSERT into Todos (UserId, Title, Description, Id, Status) values (@UserId, @Title, @Description, @Id, @Status)";
             var parameters = new DynamicParameters();
+            Guid todoId = Guid.NewGuid(); 
             parameters.Add("Title", createTodoDTO.Title, DbType.String);
             parameters.Add("UserId", createTodoDTO.UserId, DbType.Guid);
             parameters.Add("Description", createTodoDTO.Description, DbType.String);
             parameters.Add("Status", TodoStatus.Todo, DbType.String);
-            parameters.Add("Id", Guid.NewGuid(), DbType.Guid);
+            parameters.Add("Id", todoId, DbType.Guid);
             Console.WriteLine(TodoStatus.Todo);
             using (var connection = _context.CreateConnection())
             {
-                var r = await connection.ExecuteAsync(sqlQuery, parameters);
-                Console.Write(r);
+                await connection.ExecuteAsync(sqlQuery, parameters);
             }
+            return todoId;
         }
 
         public async Task<IEnumerable<TodoItem>> GetAll()
@@ -50,7 +51,7 @@ namespace TodoAPI.Data.Repositories
             string sqlQuery = "SELECT * FROM Todos WHERE Id = @Id";
             using (var connection = _context.CreateConnection())
             {
-                var todo = await connection.QuerySingleAsync<TodoItem>(sqlQuery, new { Id = id });
+                var todo = await connection.QuerySingleOrDefaultAsync<TodoItem>(sqlQuery, new { Id = id });
                 return todo;
             }
         }

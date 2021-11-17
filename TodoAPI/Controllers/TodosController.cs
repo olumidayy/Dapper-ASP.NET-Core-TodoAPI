@@ -51,9 +51,9 @@ namespace TodoAPI.Controllers
                 var todo = await _todosRepository.GetById(todoId);
                 if(todo == null) return NotFound();
                 return Ok(new {
-                    success = true,
-                    message = "One todo item returned.",
-                    data = todo
+                    Success = true,
+                    Message = "One todo item returned.",
+                    Data = todo
                 });
             }
             catch (Exception ex)
@@ -88,10 +88,11 @@ namespace TodoAPI.Controllers
         {
             try
             {
-                await _todosRepository.Create(createTodoDTO, userId);
+                var todoId = await _todosRepository.Create(createTodoDTO, userId);
                 return Ok(new {
                     Success = true,
-                    Message = "Todo item created."
+                    Message = "Todo item created.",
+                    TodoId = todoId
                 });
             }
             catch (Exception ex)

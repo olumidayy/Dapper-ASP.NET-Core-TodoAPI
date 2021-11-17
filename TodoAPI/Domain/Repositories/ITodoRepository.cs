@@ -1,16 +1,14 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TodoAPI.DTOs;
 using TodoAPI.Domain.Entities;
-using TodoAPI.Data;
 using System;
 
 namespace TodoAPI.Domain.Repositories
 {
     public interface ITodoRepository
     {
-        public Task Create(CreateTodoDTO createTodoDTO, Guid userId);
+        public Task<Guid> Create(CreateTodoDTO createTodoDTO, Guid userId);
 
         public Task<IEnumerable<TodoItem>> GetAll();
         

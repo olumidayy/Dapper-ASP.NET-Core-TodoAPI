@@ -26,7 +26,6 @@ namespace TodoAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<DapperContext>();
-            services.AddSingleton<Database>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITodoRepository, TodoRepository>();
             services.AddControllers();
